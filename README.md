@@ -1,24 +1,14 @@
-# findart-fe
+# FindART
 
-## Project setup
-```
-npm install
-```
+<p align="center"><img src="./src/assets/images/findart_logo.png"></p>
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+<p align="center">Aplikasi berbasi web untuk mencari ART dan pekerjaan ART. </p>
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Tentang Repositori
+Repositori ini merupakan repositori aplikasi frontend dari FindART
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Instalasi
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1. `npm install`
+2. `cp .env.example .env`
+3. `Konfigurasi file .env`
