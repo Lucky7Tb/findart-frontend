@@ -46,6 +46,18 @@ const routes = [
 				component: () => import(/* webpackChunkName: 'Finder-ListJob' */ '@/views/pages/finder/job/Job.vue'),
 			},
 			{
+				path: '/finder/job',
+				name: 'Finder-CreateJob',
+				beforeEnter: middlewares.mustArtFinder,
+				component: () => import(/* webpackChunkName: 'Finder-UpdateJob' */ '@/views/pages/finder/job/UpdateJob.vue'),
+			},
+			{
+				path: '/finder/job/:id',
+				name: 'Finder-UpdateJob',
+				beforeEnter: middlewares.mustArtFinder,
+				component: () => import(/* webpackChunkName: 'Finder-UpdateJob' */ '@/views/pages/finder/job/UpdateJob.vue'),
+			},
+			{
 				path: '/finder/my-art',
 				name: 'Finder-MyART',
 				beforeEnter: middlewares.mustArtFinder,
