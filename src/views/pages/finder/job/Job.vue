@@ -17,13 +17,17 @@
 				Tambah lowongan
 			</v-btn>
 			<v-row class="mt-2">
+				<v-col cols="12" v-if="this.fetch.jobs.length < 0">
+					<h2 class="text-center">Anda belum memiliki lowongan</h2>
+				</v-col>
 				<v-col
 					xs="12"
 					sm="6"
 					md="4"
 					lg="4"
 					xl="4"
-					v-for="job in jobsFormated"
+					v-else
+					v-for="job in jobs"
 					:key="job.id"
 				>
 					<v-hover v-slot="{ hover }">
@@ -71,7 +75,22 @@
 												text
 												raised
 												depressed
-												color="info"
+												color="black"
+												@click.stop="showDialog(job.id)"
+											>
+												<v-icon>
+													mdi-eye
+												</v-icon>
+												Lihat pelamar
+											</v-btn>
+										</v-list-item>
+										<v-list-item>
+											<v-btn
+												text
+												raised
+												depressed
+												color="primary"
+												@click.stop="showDialog(job.id)"
 											>
 												<v-icon>
 													mdi-image-edit
@@ -85,6 +104,7 @@
 												raised
 												depressed
 												color="warning"
+												@click="editJob(job.id)"
 											>
 												<v-icon>
 													mdi-pencil
@@ -98,6 +118,7 @@
 												raised
 												depressed
 												color="danger"
+												@click="confirmDeleteJob(job.id)"
 											>
 												<v-icon>
 													mdi-delete
@@ -114,25 +135,73 @@
 				</v-col>
 			</v-row>
 		</v-container>
-		<v-pagination circle class="mt-5"></v-pagination>
+		<v-dialog
+      v-model="dialog"
+      width="500"
+    >
+      <v-card class="pa-5">
+        <v-card-title class="text-h5">
+          Ubah thumbnail
+        </v-card-title>
+
+				<file-pond
+					name="photo"
+					ref="pond"
+					class-name="my-pond"
+					label-idle="Seret gambar kesini"
+					@addfile="onAddPhoto"
+				/>
+
+        <v-card-actions class="mt-5">
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            color="black"
+            @click="dialog = false"
+          >
+            Tutup
+          </v-btn>
+          <v-btn
+						raised
+						depressed
+            color="info"
+						@click="changeThumbnailJob"
+          >
+            Ubah
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+		<div v-if="this.fetch.jobs.length > 0">
+			<v-pagination circle class="mt-5"></v-pagination>
+		</div>
 	</v-app>
 </template>
 
 <script>
-import jobApi from '@/api/finder/job';
 import helper from '@/helper';
+import jobApi from '@/api/finder/job';
+import vueFilePond from 'vue-filepond';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm';
+import 'filepond/dist/filepond.min.css';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+
+const FilePond = vueFilePond(FilePondPluginImagePreview);
 
 export default {
 	name: 'JobPage',
 	data() {
 		return {
+			dialog: false,
+			photo: null,
+			idJob: 0,
 			fetch: {
 				jobs: [],
 			},
 		};
 	},
 	computed: {
-		jobsFormated() {
+		jobs() {
 			return this.fetch.jobs.map((job) => {
 				const tmpJob = job;
 				tmpJob.job_due_date = helper.dateFormat(tmpJob.job_due_date);
@@ -154,6 +223,67 @@ export default {
 				this.$notify.failure(data.message);
 			}
 		},
+		showDialog(idJob) {
+			this.dialog = true;
+			this.idJob = idJob;
+		},
+		onAddPhoto(_, file) {
+			this.photo = file;
+		},
+		async changeThumbnailJob() {
+			try {
+				this.$loading.hourglass('Loading...');
+
+				const formData = new FormData();
+				formData.append('job_thumbnail', this.photo.file);
+
+				const { data } = await jobApi.changeJobThumbnail(this.idJob, formData);
+
+				this.$notify.success(data.message);
+				this.dialog = false;
+				this.getJob();
+			} catch (error) {
+				const { data } = error.response;
+				const firstErrorField = Object.keys(data.errors)[0];
+				const firstError = data.errors[firstErrorField];
+				this.$notify.failure(firstError[0]);
+			} finally {
+				this.$loading.remove(1000);
+				this.$refs.pond.removeFiles();
+			}
+		},
+		editJob(idJob) {
+			this.$router.push({ path: `/finder/job/${idJob}` });
+		},
+		confirmDeleteJob(idJob) {
+			this.$confirm.show(
+				'Konfirmasi',
+				'Apakah anda yakin ingin mengahapus lowongan ini?',
+				'Ya, benar',
+				'Tidak',
+				() => {
+					this.idJob = idJob;
+					this.deleteJob();
+				},
+			);
+		},
+		async deleteJob() {
+			try {
+				this.$loading.hourglass('Loading...');
+				const { data } = await jobApi.deleteJob(this.idJob);
+				this.$notify.success(data.message);
+				this.getJob();
+			} catch (error) {
+				const { data } = error.response;
+				this.$notify.failure(data.message);
+			} finally {
+				this.$loading.remove(1000);
+				this.idJob = 0;
+			}
+		},
+	},
+	components: {
+		FilePond,
 	},
 };
 </script>
