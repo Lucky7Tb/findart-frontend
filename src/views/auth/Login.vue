@@ -64,7 +64,7 @@
 											raised
 											type="submit"
 											elevation="5"
-											class="primary"
+											color="primary"
 											:ripple="{center: true}"
 										>
 											Masuk
