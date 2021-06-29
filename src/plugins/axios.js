@@ -4,7 +4,6 @@ const http = axios.create({
 	baseURL: process.env.VUE_APP_API_ENDPOINTS,
 	post: {
 		Accept: 'application/json',
-		'Content-Type': 'application/json',
 	},
 	withCredentials: true,
 });
