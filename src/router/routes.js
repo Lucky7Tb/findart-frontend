@@ -58,8 +58,14 @@ const routes = [
 				component: () => import(/* webpackChunkName: 'Finder-UpdateJob' */ '@/views/pages/finder/job/UpdateJob.vue'),
 			},
 			{
+				path: '/finder/interest-art/:id',
+				name: 'Finder-InterestedArt',
+				beforeEnter: middlewares.mustArtFinder,
+				component: () => import(/* webpackChunkName: 'Finder-InterestedArt' */ '@/views/pages/finder/job/InterestedArt.vue'),
+			},
+			{
 				path: '/finder/my-art',
-				name: 'Finder-MyART',
+				name: 'Finder-MyArt',
 				beforeEnter: middlewares.mustArtFinder,
 				component: () => import(/* webpackChunkName: 'Finder-ListMyArt' */ '@/views/pages/finder/art/MyArt.vue'),
 			},

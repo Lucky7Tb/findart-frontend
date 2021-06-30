@@ -77,7 +77,9 @@
 												raised
 												depressed
 												color="black"
-												@click.stop="showDialog(job.id)"
+												@click="$router.push({
+													name: 'Finder-InterestedArt', params: {id: job.id}
+												})"
 											>
 												<v-icon>
 													mdi-eye

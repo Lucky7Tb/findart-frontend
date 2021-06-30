@@ -7,6 +7,9 @@ export default {
 	getDetailJob(idJob) {
 		return http.get(`api/finder/job/${idJob}`);
 	},
+	getInterestedArt(idJob) {
+		return http.get(`api/finder/job/interested-art/${idJob}`);
+	},
 	createJob(data) {
 		return http.post('api/finder/job', data, {
 			headers: {
