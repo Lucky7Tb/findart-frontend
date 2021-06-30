@@ -46,13 +46,13 @@ const routes = [
 				component: () => import(/* webpackChunkName: 'Finder-ListJob' */ '@/views/pages/finder/job/Job.vue'),
 			},
 			{
-				path: '/finder/job',
+				path: '/finder/create-job',
 				name: 'Finder-CreateJob',
 				beforeEnter: middlewares.mustArtFinder,
-				component: () => import(/* webpackChunkName: 'Finder-UpdateJob' */ '@/views/pages/finder/job/UpdateJob.vue'),
+				component: () => import(/* webpackChunkName: 'Finder-CreateJob' */ '@/views/pages/finder/job/CreateJob.vue'),
 			},
 			{
-				path: '/finder/job/:id',
+				path: '/finder/update-job/:id',
 				name: 'Finder-UpdateJob',
 				beforeEnter: middlewares.mustArtFinder,
 				component: () => import(/* webpackChunkName: 'Finder-UpdateJob' */ '@/views/pages/finder/job/UpdateJob.vue'),
