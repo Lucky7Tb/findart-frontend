@@ -5,9 +5,10 @@
 			<v-btn
 				raised
 				depressed
-				:block="$vuetify.breakpoint.smAndDown"
 				elevation="2"
 				color="primary"
+				:block="$vuetify.breakpoint.smAndDown"
+				@click="$router.push({ name: 'Finder-CreateJob' })"
 			>
 				<v-icon
 					color="white"
@@ -134,6 +135,26 @@
 					</v-hover>
 				</v-col>
 			</v-row>
+			<div class="mt-5" v-if="this.fetch.jobs.length > 0">
+				<v-btn
+					fab
+					class="mr-3"
+					color="white"
+					:disabled="page.prevPageUrl === null"
+					@click="prevPage"
+				>
+					<v-icon>mdi-arrow-left</v-icon>
+				</v-btn>
+
+				<v-btn
+					fab
+					color="white"
+					:disabled="page.nextPageUrl === null"
+					@click="nextPage"
+				>
+					<v-icon>mdi-arrow-right</v-icon>
+				</v-btn>
+			</div>
 		</v-container>
 		<v-dialog
       v-model="dialog"
@@ -172,9 +193,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-		<div v-if="this.fetch.jobs.length > 0">
-			<v-pagination circle class="mt-5"></v-pagination>
-		</div>
 	</v-app>
 </template>
 
@@ -198,6 +216,10 @@ export default {
 			fetch: {
 				jobs: [],
 			},
+			page: {
+				nextPageUrl: null,
+				prevPageUrl: null,
+			},
 		};
 	},
 	computed: {
@@ -214,10 +236,13 @@ export default {
 		this.getJob();
 	},
 	methods: {
-		async getJob() {
+		async getJob(url = 'api/finder/job') {
 			try {
-				const { data } = await jobApi.getJob();
+				const { data } = await jobApi.getJob(url);
 				this.fetch.jobs = data.serve.data;
+
+				this.page.nextPageUrl = data.serve.next_page_url;
+				this.page.prevPageUrl = data.serve.prev_page_url;
 			} catch (error) {
 				const { data } = error.response;
 				this.$notify.failure(data.message);
@@ -253,7 +278,7 @@ export default {
 			}
 		},
 		editJob(idJob) {
-			this.$router.push({ path: `/finder/job/${idJob}` });
+			this.$router.push({ name: 'Finder-UpdateJob', params: { id: idJob } });
 		},
 		confirmDeleteJob(idJob) {
 			this.$confirm.show(
@@ -280,6 +305,12 @@ export default {
 				this.$loading.remove(1000);
 				this.idJob = 0;
 			}
+		},
+		nextPage() {
+			this.getJob(this.page.nextPageUrl);
+		},
+		prevPage() {
+			this.getJob(this.page.prevPageUrl);
 		},
 	},
 	components: {

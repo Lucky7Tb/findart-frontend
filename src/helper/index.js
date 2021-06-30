@@ -44,7 +44,7 @@ export default {
 			oldDate['1'] = 'error';
 			break;
 		}
-		newDate = oldDate.join('-');
+		newDate = `${oldDate[2]}-${oldDate[1]}-${oldDate[0]}`;
 		return newDate;
 	},
 	rupiahFormat(value) {

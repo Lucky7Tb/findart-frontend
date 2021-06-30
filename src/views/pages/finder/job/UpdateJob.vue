@@ -1,7 +1,7 @@
 <template>
 	<v-app>
 		<v-container>
-			<v-form class="mt-5" lazy-validation>
+			<v-form class="mt-5" lazy-validation @submit.prevent="updateJob">
 				<v-container>
 					<v-row>
 						<v-col cols="6">
@@ -17,6 +17,7 @@
 									prepend-inner-icon="mdi-cash"
 									placeholder="Masukan gaji lowongan"
 									v-model="form.job_payment"
+									:error-messages="validation.firstError('form.job_payment')"
 								>
 							</v-text-field>
 						</v-col>
@@ -32,17 +33,19 @@
 										readonly
 										outlined
 										autofocus
-										v-on="on"
-										v-bind="attrs"
-										v-model="form.job_due_date"
 										class="rounded-lg"
 										label="Deadline pendaftaran"
 										prepend-inner-icon="mdi-calendar"
+										v-on="on"
+										v-bind="attrs"
+										v-model="form.job_due_date"
+										:error-messages="validation.firstError('form.job_due_date')"
 									></v-text-field>
 								</template>
 								<v-date-picker
 									scrollable
 									v-model="form.job_due_date"
+									:min="new Date().toISOString()"
 								>
 									<v-spacer></v-spacer>
 									<v-btn
@@ -68,6 +71,7 @@
 								v-model="form.job_description"
 								:options="quillOptions"
 								:auto-height="false"
+								:error-messages="validation.firstError('form.job_description')"
 							></quill-editor>
 						</v-col>
 						<v-col cols="12">
@@ -104,10 +108,16 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import jobApi from '@/api/finder/job';
 import { quillEditor } from 'vue-quill-editor';
+
+import SimpleVueValidator from 'simple-vue-validator';
+
+Vue.use(SimpleVueValidator, { mode: 'conservative' });
+const { Validator } = SimpleVueValidator;
 
 export default {
 	name: 'UpdateJob',
@@ -163,6 +173,25 @@ export default {
 			},
 		};
 	},
+	validators: {
+		'form.job_payment': {
+			cache: true,
+			debounce: 500,
+			validator: (value) => (
+				Validator.value(value).required().integer().greaterThanOrEqualTo(2000000)
+			),
+		},
+		'form.job_due_date': {
+			cache: true,
+			debounce: 500,
+			validator: (value) => Validator.value(value).required(),
+		},
+		'form.job_description': {
+			cache: true,
+			debounce: 500,
+			validator: (value) => Validator.value(value).required(),
+		},
+	},
 	methods: {
 		async getDetailJob() {
 			try {
@@ -172,6 +201,33 @@ export default {
 				const { data } = error.response;
 				this.$notify.failure(data.message);
 			}
+		},
+		updateJob() {
+			this.$validate().then(async (success) => {
+				if (success) {
+					try {
+						const { data } = await jobApi.updateJob(this.$route.params.id, this.form);
+
+						this.$notify.success(data.message);
+
+						setTimeout(() => {
+							this.$router.go(-1);
+						}, 1500);
+					} catch (error) {
+						const { data, status } = error.response;
+
+						if (status === 500) {
+							this.$notify.failure(data.message);
+						} else {
+							const firstErrorField = Object.keys(data.errors)[0];
+							const firstError = data.errors[firstErrorField];
+							this.$notify.failure(firstError[0]);
+						}
+					} finally {
+						this.$loading.remove(1000);
+					}
+				}
+			});
 		},
 		fillForm(data) {
 			this.form.job_payment = data.job_payment;

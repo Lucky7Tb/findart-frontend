@@ -65,7 +65,7 @@
 											type="submit"
 											elevation="5"
 											color="primary"
-											:ripple="{center: true}"
+											:ripple="{ center: true }"
 										>
 											Masuk
 										</v-btn>
