@@ -60,4 +60,10 @@ export default {
 		rupiah = split[1] !== undefined ? `${rupiah}, ${split[1]}` : rupiah;
 		return `Rp. ${rupiah}`;
 	},
+	indonesiaNumberFormat(number) {
+		let newNumber = number.split('');
+		newNumber[0] = '+62';
+		newNumber = newNumber.join('');
+		return newNumber;
+	},
 };

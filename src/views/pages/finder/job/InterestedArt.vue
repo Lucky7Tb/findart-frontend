@@ -22,6 +22,7 @@
 							<v-img
 								contain
 								height="250"
+								:alt="art.art_name"
 								:src="art.photo.photo_url"
 								:lazy-src="art.photo.photo_url"
 							></v-img>
@@ -87,7 +88,7 @@ export default {
 		confirmSelectArt(artId) {
 			this.$confirm.show(
 				'Konfirmasi',
-				'APakah yakin ingin memilih art ini?',
+				'Apakah yakin ingin memilih art ini?',
 				'Ya, yakin',
 				'Tidak',
 				() => {

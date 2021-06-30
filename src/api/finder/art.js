@@ -11,4 +11,11 @@ export default {
 			},
 		});
 	},
+	fireArt(data) {
+		return http.post('api/finder/art/fire-art', data, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+	},
 };
