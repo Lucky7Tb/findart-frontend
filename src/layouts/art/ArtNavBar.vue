@@ -45,7 +45,7 @@
 							}"
 							:to="menu.link"
 						>
-							<v-icon>{{menu.icon}}</v-icon>
+							<v-icon left>{{menu.icon}}</v-icon>
 							{{menu.name}}
 						</v-btn>
 						<v-btn
@@ -57,7 +57,7 @@
 							}"
 							@click="$emit('navbarLogout')"
 						>
-							<v-icon>mdi-logout</v-icon>
+							<v-icon left>mdi-logout</v-icon>
 							Logout
 						</v-btn>
 					</v-toolbar-items>

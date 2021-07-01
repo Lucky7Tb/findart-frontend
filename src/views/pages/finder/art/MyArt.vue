@@ -1,7 +1,7 @@
 <template>
 	<v-app>
 		<v-container>
-			<h1 v-if="myArt.length === 0">Anda tidak punya art</h1>
+			<h1 class="text-center" v-if="myArt.length === 0">Anda tidak punya art</h1>
 
 			<v-row class="mt-5">
 				<v-col
@@ -49,7 +49,7 @@
 									class="mt-3"
 									color="danger white--text"
 									:ripple="{center: true}"
-									@click="confirmFireArt(data.id, data.art_id)"
+									@click="confirmFireArt(data.id, data.art.art_name)"
 								>
 									Berhentikan
 									<v-icon right small>
@@ -67,28 +67,42 @@
 			<v-dialog
 				v-model="artRatingDialog"
 				persistent
-				max-width="290"
+				width="500"
 			>
 				<v-card>
-					<v-card-title class="text-h5">
-						Use Google's location service?
-					</v-card-title>
-					<v-card-text>Let Google</v-card-text>
+					<v-toolbar
+						color="primary"
+						dark
+					>
+						Beri rating untuk {{ fireArtData.artName }}
+					</v-toolbar>
+					<v-card-text>
+						<h2 class="text-center mt-3">Rating</h2>
+						<v-rating
+							hover
+							size="34"
+							length="5"
+							color="warning"
+							background-color="warning"
+							class="text-center mt-2"
+							v-model="fireArtData.rating"
+						></v-rating>
+					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
 						<v-btn
-							color="green darken-1"
-							text
-							@click="artRatingDialog = false"
+							dark
+							color="danger"
+							@click="confirmGivenRating"
 						>
-							Disagree
+							Oke, berhentikan
 						</v-btn>
 						<v-btn
-							color="green darken-1"
-							text
+							outlined
+							color="black"
 							@click="artRatingDialog = false"
 						>
-							Agree
+							Tutup
 						</v-btn>
 					</v-card-actions>
 				</v-card>
@@ -107,6 +121,11 @@ export default {
 		return {
 			artRatingDialog: false,
 			dataArt: [],
+			fireArtData: {
+				rating: 1,
+				artName: '',
+				acceptedJobId: -1,
+			},
 		};
 	},
 	computed: {
@@ -131,31 +150,54 @@ export default {
 				this.$notify.failure(data.message);
 			}
 		},
-		confirmFireArt() {
+		confirmFireArt(acceptedJobId, artName) {
 			this.$confirm.show(
 				'Konfirmasi',
 				'Yakin ingin memberhentikan art ini? Anda harus memberi rating terlebih dahulu.',
 				'Ya, yakin',
 				'Tidak',
-				() => { this.artRatingDialog = true; },
+				() => this.showArtRatingDialog(acceptedJobId, artName),
 			);
 		},
-		async fireArt(acceptedJobId, artId) {
+		confirmGivenRating() {
+			this.$confirm.show(
+				'Konfirmasi',
+				`Yakin ingin memberi rating art bintang ${this.fireArtData.rating}`,
+				'Ya, yakin',
+				'Tidak',
+				() => this.fireArt(),
+			);
+		},
+		showArtRatingDialog(acceptedJobId, artName) {
+			this.artRatingDialog = true;
+			this.fireArtData.rating = 1;
+			this.fireArtData.artName = artName;
+			this.fireArtData.acceptedJobId = acceptedJobId;
+		},
+		async fireArt() {
 			try {
 				this.$loading.hourglass('Loading...');
 
 				const { data } = await artApi.fireArt({
-					accepted_job_id: acceptedJobId,
-					art_id: artId,
+					accepted_job_id: this.fireArtData.acceptedJobId,
+					art_rating: this.fireArtData.rating,
 				});
 
 				this.$notify.success(data.message);
+				this.clearData();
+				this.getMyArt();
 			} catch (error) {
 				const { data } = error.response;
 				this.$notify.failure(data.message);
 			} finally {
 				this.$loading.remove();
 			}
+		},
+		clearData() {
+			this.artRatingDialog = false;
+			this.fireArtData.rating = 1;
+			this.fireArtData.artName = '';
+			this.fireArtData.acceptedJobId = -1;
 		},
 	},
 };

@@ -1,11 +1,11 @@
 const menu = [
 	{
-		name: 'Lowongan anda',
+		name: 'Lowongan',
 		link: '/finder',
-		icon: 'mdi-magnify',
+		icon: 'mdi-briefcase',
 	},
 	{
-		name: 'Art Anda',
+		name: 'Art',
 		link: '/finder/my-art',
 		icon: 'mdi-account-group',
 	},
