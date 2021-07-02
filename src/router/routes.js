@@ -90,6 +90,11 @@ const routes = [
 		beforeEnter: middlewares.mustNotAuthenticated,
 		component: () => import(/* webpackChunkName: 'Auth-Register' */ '@/views/auth/Register.vue'),
 	},
+	{
+		path: '/:catchAll(.*)',
+		name: 'Error-404',
+		component: () => import(/* webpackChunkName: '404' */ '@/views/404.vue'),
+	},
 ];
 
 export default routes;
