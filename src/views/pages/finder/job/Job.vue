@@ -18,7 +18,7 @@
 				Tambah lowongan
 			</v-btn>
 			<v-row class="mt-2">
-				<v-col cols="12" v-if="this.fetch.jobs.length < 0">
+				<v-col cols="12" v-if="jobs.length === 0">
 					<h2 class="text-center">Anda belum memiliki lowongan</h2>
 				</v-col>
 				<v-col
