@@ -11,14 +11,14 @@ export default {
 		return http.get(`api/finder/job/interested-art/${idJob}`);
 	},
 	createJob(data) {
-		return http.post('api/finder/job', data, {
+		return http.post('api/finder/job/create-job', data, {
 			headers: {
 				'Content-Type': 'application/form-data',
 			},
 		});
 	},
 	updateJob(idJob, data) {
-		return http.put(`api/finder/job/${idJob}`, data, {
+		return http.post(`api/finder/job/update-job/${idJob}`, data, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -35,6 +35,6 @@ export default {
 		);
 	},
 	deleteJob(idJob) {
-		return http.delete(`api/finder/job/${idJob}`);
+		return http.post(`api/finder/job/delete-job/${idJob}`);
 	},
 };
