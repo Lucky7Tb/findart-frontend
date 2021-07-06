@@ -81,8 +81,13 @@ export default {
 
 				this.interestedArt = data.serve;
 			} catch (error) {
-				const { data } = error.response;
-				this.$notify.failure(data.message);
+				const { data, status } = error.response;
+
+				if (status === 500) {
+					this.$notify.failure(data.message);
+				} else {
+					this.$notify.failure('Terjadi kesalahan pada server');
+				}
 			}
 		},
 		confirmSelectArt(artId) {
@@ -109,8 +114,13 @@ export default {
 					this.$router.push({ name: 'Finder-MyArt' });
 				}, 1500);
 			} catch (error) {
-				const { data } = error.response;
-				this.$notify.failure(data.message);
+				const { data, status } = error.response;
+
+				if (status === 400 || status === 500) {
+					this.$notify.failure(data.message);
+				} else {
+					this.$notify.failure('Terjadi kesalahan pada server');
+				}
 			} finally {
 				this.$loading.remove(1000);
 			}
