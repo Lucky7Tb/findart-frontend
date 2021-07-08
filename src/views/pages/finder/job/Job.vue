@@ -246,8 +246,13 @@ export default {
 				this.page.nextPageUrl = data.serve.next_page_url;
 				this.page.prevPageUrl = data.serve.prev_page_url;
 			} catch (error) {
-				const { data } = error.response;
-				this.$notify.failure(data.message);
+				const { data, status } = error.response;
+
+				if (status === 500) {
+					this.$notify.failure(data.message);
+				} else {
+					this.$notify.failure('Terjadi kesalahan pada server');
+				}
 			}
 		},
 		showDialog(idJob) {
@@ -270,10 +275,17 @@ export default {
 				this.dialog = false;
 				this.getJob();
 			} catch (error) {
-				const { data } = error.response;
-				const firstErrorField = Object.keys(data.errors)[0];
-				const firstError = data.errors[firstErrorField];
-				this.$notify.failure(firstError[0]);
+				const { data, status } = error.response;
+
+				if (status === 422) {
+					const firstErrorField = Object.keys(data.errors)[0];
+					const firstError = data.errors[firstErrorField];
+					this.$notify.failure(firstError[0]);
+				} else if (status === 404 || status === 500) {
+					this.$notify.failure(data.message);
+				} else {
+					this.$notify.failure('Terjadi kesalahan pada server');
+				}
 			} finally {
 				this.$loading.remove(1000);
 				this.$refs.pond.removeFiles();
@@ -297,12 +309,18 @@ export default {
 		async deleteJob() {
 			try {
 				this.$loading.hourglass('Loading...');
+
 				const { data } = await jobApi.deleteJob(this.idJob);
 				this.$notify.success(data.message);
 				this.getJob();
 			} catch (error) {
-				const { data } = error.response;
-				this.$notify.failure(data.message);
+				const { data, status } = error.response;
+
+				if (status === 404 || status === 500) {
+					this.$notify.failure(data.message);
+				} else {
+					this.$notify.failure('Terjadi kesalahan pada server');
+				}
 			} finally {
 				this.$loading.remove(1000);
 				this.idJob = 0;

@@ -146,8 +146,13 @@ export default {
 				const { data } = await artApi.getMyArt();
 				this.dataArt = data.serve;
 			} catch (error) {
-				const { data } = error.response;
-				this.$notify.failure(data.message);
+				const { data, status } = error.response;
+
+				if (status === 500) {
+					this.$notify.failure(data.message);
+				} else {
+					this.$notify.failure('Terjadi kesalahan pada server');
+				}
 			}
 		},
 		confirmFireArt(acceptedJobId, artName) {
@@ -187,8 +192,13 @@ export default {
 				this.clearData();
 				this.getMyArt();
 			} catch (error) {
-				const { data } = error.response;
-				this.$notify.failure(data.message);
+				const { data, status } = error.response;
+
+				if (status === 500) {
+					this.$notify.failure(data.message);
+				} else {
+					this.$notify.failure('Terjadi kesalahan pada server');
+				}
 			} finally {
 				this.$loading.remove();
 			}

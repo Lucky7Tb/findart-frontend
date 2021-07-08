@@ -14,16 +14,16 @@ const routes = [
 				component: () => import(/* webpackChunkName: 'Art-Job' */ '@/views/pages/art/job/Job.vue'),
 			},
 			{
-				path: '/detail-job',
+				path: '/detail-job/:id',
 				name: 'Art-DetailJob',
 				beforeEnter: middlewares.mustArt,
-				component: () => import(/* webpackChunkName: 'Art-JobDetail' */ '@/views/pages/art/job/DetailJob.vue'),
+				component: () => import(/* webpackChunkName: 'Art-DetailJob' */ '@/views/pages/art/job/DetailJob.vue'),
 			},
 			{
 				path: '/applied-job',
 				name: 'Art-ListAppliedJob',
 				beforeEnter: middlewares.mustArt,
-				component: () => import(/* webpackChunkName: 'Art-AppliedJob' */ '@/views/pages/art/job/ListApplyJob.vue'),
+				component: () => import(/* webpackChunkName: 'Art-AppliedJob' */ '@/views/pages/art/job/ListAppliedJob.vue'),
 			},
 			{
 				path: '/setting',
