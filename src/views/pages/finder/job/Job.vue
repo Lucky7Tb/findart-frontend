@@ -246,7 +246,7 @@ export default {
 				this.page.nextPageUrl = data.serve.next_page_url;
 				this.page.prevPageUrl = data.serve.prev_page_url;
 			} catch (error) {
-				const { data, status} = error.response;
+				const { data, status } = error.response;
 
 				if (status === 500) {
 					this.$notify.failure(data.message);
@@ -275,13 +275,13 @@ export default {
 				this.dialog = false;
 				this.getJob();
 			} catch (error) {
-				const { data, status} = error.response;
+				const { data, status } = error.response;
 
 				if (status === 422) {
 					const firstErrorField = Object.keys(data.errors)[0];
 					const firstError = data.errors[firstErrorField];
 					this.$notify.failure(firstError[0]);
-				} else if	(status === 404 || status === 500) {
+				} else if (status === 404 || status === 500) {
 					this.$notify.failure(data.message);
 				} else {
 					this.$notify.failure('Terjadi kesalahan pada server');

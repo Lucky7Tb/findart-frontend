@@ -193,6 +193,7 @@
 													color="primary"
 													label="Password"
 													class="rounded-lg"
+													autocomplete="false"
 													placeholder="Password anda"
 													prepend-inner-icon="mdi-lock"
 													v-model="form.password"
@@ -207,10 +208,11 @@
 												<v-text-field
 													outlined
 													color="primary"
-													label="Konfirmasi password"
-													placeholder="Konfirmasi password anda"
-													prepend-inner-icon="mdi-lock"
 													class="rounded-lg"
+													autocomplete="false"
+													label="Konfirmasi password"
+													prepend-inner-icon="mdi-lock"
+													placeholder="Konfirmasi password anda"
 													v-model="form.confirm_password"
 													:append-icon="showPassConfirm ? 'mdi-eye' : 'mdi-eye-off'"
 													:type="showPassConfirm ? 'text' : 'password'"
@@ -255,10 +257,10 @@
 import Vue from 'vue';
 import VueSelectImage from 'vue-select-image';
 import SimpleVueValidator from 'simple-vue-validator';
-import authAPI from '../../api/auth';
-import locationAPI from '../../api/location';
-import artIllust from '../../assets/images/illustration/art-illust.svg';
-import finderIllust from '../../assets/images/illustration/finder-illust.svg';
+import authAPI from '@/api/auth';
+import locationAPI from '@/api/location';
+import artIllust from '@/assets/images/illustration/art-illust.svg';
+import finderIllust from '@/assets/images/illustration/finder-illust.svg';
 
 Vue.use(SimpleVueValidator, { mode: 'conservative' });
 const { Validator } = SimpleVueValidator;
