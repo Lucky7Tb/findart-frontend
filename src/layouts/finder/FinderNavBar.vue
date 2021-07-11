@@ -10,8 +10,8 @@
 			<v-toolbar-title class="hidden-md-and-up mx-auto">
 				<v-img
 					width="250"
-					lazy-src="@/assets/images/findart_logo_2.png"
-					src="@/assets/images/findart_logo_2.png"
+					lazy-src="@/assets/images/new_logo.png"
+					src="@/assets/images/new_logo.png"
 				></v-img>
 			</v-toolbar-title>
 
@@ -23,10 +23,10 @@
 				>
 					<v-toolbar-title>
 						<v-img
-							lazy-src="@/assets/images/findart_logo_2.png"
+							lazy-src="@/assets/images/new_logo.png"
 							max-height="250"
 							max-width="250"
-							src="@/assets/images/findart_logo_2.png"
+							src="@/assets/images/new_logo.png"
 						></v-img>
 					</v-toolbar-title>
 
@@ -39,11 +39,11 @@
 							exact
 							raised
 							depressed
-							exact-active-class="blue--text text--darken-4"
+							exact-active-class="primary--text"
 							v-for="(menu, index) in listMenuFinder"
 							:key="index"
 							:ripple="{
-								class: 'blue--text text--accent-4'
+								class: 'primary--text text--accent-4'
 							}"
 							:to="menu.link"
 						>
@@ -57,7 +57,7 @@
 							raised
 							depressed
 							:ripple="{
-								class: 'blue--text text--accent-4'
+								class: 'primary--text'
 							}"
 							@click="$emit('navbarLogout')"
 						>

@@ -31,7 +31,7 @@
 								<v-btn
 									block
 									class="mt-3"
-									color="accent"
+									color="primary"
 									target="_blank"
 									:href="(
 										`https://api.whatsapp.com/send?phone=${data.art.art_phone_number}&text=Halo%20saudara/i%20${data.art.art_name}%20. Sekarang%20anda%20bekerja%20untuk%20saya%20ya%20. Mohon%20kerjasamanya 🙏.`

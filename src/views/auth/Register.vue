@@ -9,9 +9,9 @@
 			>
 				<v-img
 					contain
-					lazy-src="@/assets/images/findart_logo_2.png"
+					lazy-src="@/assets/images/new_logo.png"
 					width="400px"
-					src="@/assets/images/findart_logo_2.png"
+					src="@/assets/images/new_logo.png"
 					class="d-none d-sm-flex mx-auto"
 				></v-img>
 
