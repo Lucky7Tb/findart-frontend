@@ -14,10 +14,10 @@
 					<v-col class="px-5 py-5 d-none d-sm-flex">
 						<v-img
 							contain
-							lazy-src="@/assets/images/illustration/login-illust-2.svg"
+							lazy-src="@/assets/images/illustration/login-illust.svg"
 							width="400px"
 							height="450px"
-							src="@/assets/images/illustration/login-illust-2.svg"
+							src="@/assets/images/illustration/login-illust.svg"
 							class="d-none d-sm-flex mx-auto"
 						></v-img>
 					</v-col>

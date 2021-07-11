@@ -33,7 +33,7 @@
 				>
 					<v-hover v-slot="{ hover }">
 						<v-card
-							:elevation="hover ? 12 : 2"
+							:elevation="hover ? 12 : 4"
 							:class="{ 'on-hover': hover }"
 						>
 							<v-img
