@@ -5,7 +5,7 @@ Notify.init({
 	position: 'center-top',
 	opacity: 5,
 	borderRadius: '10px',
-	success: { background: '#757575' },
+	success: { background: '#64FFDA' },
 	failure: { background: '#FF1744' },
 });
 
