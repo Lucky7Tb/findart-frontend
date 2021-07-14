@@ -10,8 +10,8 @@
 			<v-toolbar-title class="hidden-md-and-up mx-auto">
 				<v-img
 					width="250"
-					lazy-src="@/assets/images/new_logo.png"
-					src="@/assets/images/new_logo.png"
+					lazy-src="@/assets/images/logo.png"
+					src="@/assets/images/logo.png"
 				></v-img>
 			</v-toolbar-title>
 
@@ -23,10 +23,10 @@
 				>
 					<v-toolbar-title>
 						<v-img
-							lazy-src="@/assets/images/new_logo.png"
+							lazy-src="@/assets/images/logo.png"
 							max-height="250"
 							max-width="250"
-							src="@/assets/images/new_logo.png"
+							src="@/assets/images/logo.png"
 						></v-img>
 					</v-toolbar-title>
 

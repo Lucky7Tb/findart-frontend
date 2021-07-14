@@ -12,7 +12,7 @@ export default new Vuetify({
 		themes: {
 			light: {
 				primary: '#0091EA',
-				success: '#64FFDA',
+				success: '#00C853',
 				info: '#42A5F5',
 				warning: '#FFAB40',
 				danger: '#FF1744',

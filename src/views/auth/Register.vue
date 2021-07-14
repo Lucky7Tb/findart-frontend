@@ -9,9 +9,9 @@
 			>
 				<v-img
 					contain
-					lazy-src="@/assets/images/new_logo.png"
+					lazy-src="@/assets/images/logo.png"
 					width="400px"
-					src="@/assets/images/new_logo.png"
+					src="@/assets/images/logo.png"
 					class="d-none d-sm-flex mx-auto"
 				></v-img>
 
